@@ -57,20 +57,32 @@ class MainActivity : AppCompatActivity(),LoaderManager.LoaderCallbacks<Cursor> {
             0)
 
         lvContacts.adapter = simpleCursorAdapter
-        /*if(checkSelfPermission(android.Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED){
+        if(checkSelfPermission(android.Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED){
             supportLoaderManager.initLoader(0, null, this)
         }else {
             if(shouldShowRequestPermissionRationale(android.Manifest.permission.READ_CONTACTS)){
                 Toast.makeText(this,"Contact permission is needed",Toast.LENGTH_SHORT).show()
             }
 
-            requestPermissions(new String[]{android.Manifest.permission.READ_CONTACTS},REQUEST_READ_CONTACTS)
-        }*/
+            requestPermissions(arrayOf(android.Manifest.permission.READ_CONTACTS),REQUEST_READ_CONTACTS)
+        }
 
-            supportLoaderManager.initLoader(100, null, this)
+            //supportLoaderManager.initLoader(100, null, this)
 
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when(requestCode){
+            REQUEST_READ_CONTACTS ->{
+                if((grantResults.isNotEmpty()&& grantResults[0]==PackageManager.PERMISSION_GRANTED)){
+                    supportLoaderManager.initLoader(0, null, this)
+                }else{
+
+                }
+                return
+            }
+        }
+    }
 
 
 }
